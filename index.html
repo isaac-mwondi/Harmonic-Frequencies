@@ -24,15 +24,15 @@
         }
 
         [data-theme="light"] {
-            --bg-primary: #F4F4F7;
+            --bg-primary: #F8FAFC;
             --bg-secondary: #FFFFFF;
-            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card: rgba(255, 255, 255, 0.9);
             --border-color: rgba(0, 0, 0, 0.1);
-            --text-main: #0E0F14;
+            --text-main: #0F172A;
             --text-muted: #64748B;
-            --accent: #1E293B;
-            --accent-glow: rgba(30, 41, 59, 0.1);
-            --nav-bg: rgba(244, 244, 247, 0.85);
+            --accent: #0F172A;
+            --accent-glow: rgba(15, 23, 42, 0.1);
+            --nav-bg: rgba(248, 250, 252, 0.85);
         }
 
         * {
@@ -50,14 +50,13 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Utility Classes */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        /* Navigation */
+        /* Header Navigation */
         header {
             position: fixed;
             top: 0;
@@ -145,13 +144,13 @@
             text-shadow: 0 0 10px var(--accent-glow);
         }
 
-        .nav-actions {
+        .nav-right-actions {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: 1rem;
         }
 
-        .theme-toggle {
+        .theme-toggle-btn {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             color: var(--text-main);
@@ -163,9 +162,10 @@
             align-items: center;
             justify-content: center;
             transition: var(--transition);
+            font-size: 1rem;
         }
 
-        .theme-toggle:hover {
+        .theme-toggle-btn:hover {
             border-color: var(--text-main);
             transform: scale(1.05);
         }
@@ -334,7 +334,7 @@
         .video-card:hover {
             transform: translateY(-5px);
             border-color: var(--text-muted);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
         .video-thumbnail {
@@ -485,7 +485,7 @@
             color: #94A3B8;
         }
 
-        /* Interactive Booking & Quotation Estimator */
+        /* Booking & Quotation Estimator */
         .booking-section {
             background: var(--bg-secondary);
             border-radius: 12px;
@@ -755,8 +755,8 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
 
-            <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+            <div class="nav-right-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
                 </button>
                 <button class="menu-btn" id="menuBtn">
@@ -1045,16 +1045,15 @@
     <!-- JavaScript Functionality -->
     <script>
         /* Theme Toggle Logic */
-        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
         const themeIcon = document.getElementById('themeIcon');
         const htmlElement = document.documentElement;
 
-        // Check saved theme preference
         const savedTheme = localStorage.getItem('hf_theme') || 'dark';
         htmlElement.setAttribute('data-theme', savedTheme);
         updateThemeIcon(savedTheme);
 
-        themeToggle.addEventListener('click', () => {
+        themeToggleBtn.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
@@ -1079,7 +1078,6 @@
             navLinks.classList.toggle('active');
         });
 
-        // Close menu on link click for mobile
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -1146,11 +1144,9 @@
 
             document.getElementById('selectedEventText').innerText = eventText;
 
-            // Duration multiplier
             let durationPrice = (duration - 1) * 250;
             if (duration === 1) durationPrice = 0;
 
-            // Gear price
             let gearPrice = 450;
             if (gear === 'standard') gearPrice = 250;
             if (gear === 'none') gearPrice = 0;
@@ -1172,7 +1168,6 @@
             calculateQuote();
         }
 
-        // Initialize calculation on load
         calculateQuote();
     </script>
 </body>
