@@ -12,11 +12,9 @@
             theme: {
                 extend: {
                     colors: {
-                        pitch: '#F9F8F6',
-                        ivory: '#111111',
-                        'ivory-muted': '#666666',
-                        'glass-light': 'rgba(255, 255, 255, 0.85)',
-                        'glow-dark': 'rgba(0, 0, 0, 0.08)'
+                        pitch: 'var(--bg-pitch)',
+                        ivory: 'var(--text-ivory)',
+                        'ivory-muted': 'var(--text-ivory-muted)',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -42,34 +40,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        /* Theme CSS Variables */
+        :root {
+            --bg-pitch: #F9F8F6;
+            --text-ivory: #111111;
+            --text-ivory-muted: #666666;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --card-bg: rgba(0, 0, 0, 0.02);
+            --header-bg: rgba(249, 248, 246, 0.85);
+            --grid-line: rgba(0, 0, 0, 0.04);
+            --btn-bg: #111111;
+            --btn-text: #F9F8F6;
+            --input-bg: #F9F8F6;
+            --modal-bg: rgba(249, 248, 246, 0.95);
+        }
+
+        .dark {
+            --bg-pitch: #030303;
+            --text-ivory: #EAE7DF;
+            --text-ivory-muted: #A3A099;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --header-bg: rgba(3, 3, 3, 0.85);
+            --grid-line: rgba(255, 255, 255, 0.03);
+            --btn-bg: #EAE7DF;
+            --btn-text: #030303;
+            --input-bg: #030303;
+            --modal-bg: rgba(3, 3, 3, 0.95);
+        }
+
         body {
-            background-color: #F9F8F6;
-            color: #111111;
+            background-color: var(--bg-pitch);
+            color: var(--text-ivory);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Subtle grid background */
         .bg-grid {
             background-size: 40px 40px;
             background-image: 
-                linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+                linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
         }
 
-        /* Custom glow effects for light mode */
+        /* Custom glow effects */
         .glow-border {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
         }
 
         .glow-border-hover:hover {
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .glow-text {
-            /* Crisp typography in light mode */
+            border-color: var(--text-ivory-muted);
         }
 
         /* Custom Scrollbar */
@@ -77,38 +101,32 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #F9F8F6;
+            background: var(--bg-pitch);
         }
         ::-webkit-scrollbar-thumb {
-            background: #D1CDC4;
+            background: var(--text-ivory-muted);
+            opacity: 0.3;
             border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #A3A099;
         }
     </style>
 </head>
-<body class="bg-pitch text-ivory antialiased selection:bg-neutral-900 selection:text-white">
+<body class="bg-pitch text-ivory antialiased">
 
     <!-- NAVIGATION HEADER -->
-    <header class="fixed top-0 left-0 w-full z-50 bg-[#F9F8F6]/80 backdrop-blur-md border-b border-black/10 transition-all duration-300">
+    <header class="fixed top-0 left-0 w-full z-50 backdrop-blur-md border-b border-[var(--border-color)] transition-all duration-300" style="background-color: var(--header-bg);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             
             <!-- Logo Brand -->
             <a href="#hero" class="flex items-center gap-3 group">
-                <!-- Inline SVG HF Monogram Icon based on logo style -->
-                <div class="w-10 h-10 border border-ivory/30 rounded-lg flex items-center justify-center p-1.5 transition-all duration-300 group-hover:border-ivory group-hover:shadow-[0_0_15px_rgba(0,0,0,0.1)]">
+                <div class="w-10 h-10 border border-[var(--border-color)] rounded-lg flex items-center justify-center p-1.5 transition-all duration-300 group-hover:border-ivory">
                     <svg viewBox="0 0 100 100" class="w-full h-full fill-none stroke-ivory stroke-[5]" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- H Letter Left -->
                         <path d="M 20 20 L 20 80 M 20 50 L 45 50 M 45 20 L 45 80" />
-                        <!-- F Letter Right -->
                         <path d="M 55 20 L 80 20 M 55 20 L 55 80 M 55 50 L 75 50" />
-                        <!-- Soundwave stroke overlapping horizontally -->
-                        <path d="M 10 50 Q 25 30 35 50 T 65 50 T 90 50" class="stroke-neutral-800 stroke-[3]" />
+                        <path d="M 10 50 Q 25 30 35 50 T 65 50 T 90 50" class="stroke-ivory stroke-[3]" />
                     </svg>
                 </div>
                 <div class="flex flex-col">
-                    <span class="font-bold tracking-[0.2em] text-sm text-ivory uppercase glow-text">Harmonic</span>
+                    <span class="font-bold tracking-[0.2em] text-sm text-ivory uppercase">Harmonic</span>
                     <span class="text-[10px] tracking-[0.3em] text-ivory-muted uppercase">Frequencies</span>
                 </div>
             </a>
@@ -122,70 +140,70 @@
                 <a href="#contact" class="hover:text-ivory transition-colors duration-200">/CONTACT</a>
             </nav>
 
-            <!-- Actions -->
+            <!-- Actions & Theme Toggle -->
             <div class="hidden md:flex items-center space-x-4">
-                <a href="#booking" class="px-5 py-2.5 rounded-full text-xs font-mono uppercase font-semibold bg-neutral-900 text-[#F9F8F6] hover:bg-black transition-all duration-300 transform hover:scale-105 shadow-md">
+                <!-- Theme Switcher Button -->
+                <button id="theme-toggle" aria-label="Toggle Theme" class="w-10 h-10 rounded-full border border-[var(--border-color)] flex items-center justify-center text-ivory hover:border-ivory transition-all">
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                </button>
+                <a href="#booking" class="px-5 py-2.5 rounded-full text-xs font-mono uppercase font-semibold transition-all duration-300 transform hover:scale-105 shadow-md" style="background-color: var(--btn-bg); color: var(--btn-text);">
                     Book Event
                 </a>
             </div>
 
-            <!-- Mobile Menu Toggle Button -->
-            <button id="mobile-menu-btn" aria-label="Toggle Navigation Menu" class="md:hidden text-ivory p-2 focus:outline-none">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
+            <!-- Mobile Menu Toggle Button & Theme Toggle -->
+            <div class="flex items-center gap-2 md:hidden">
+                <button id="theme-toggle-mobile" aria-label="Toggle Theme" class="w-9 h-9 rounded-full border border-[var(--border-color)] flex items-center justify-center text-ivory">
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                </button>
+                <button id="mobile-menu-btn" aria-label="Toggle Navigation Menu" class="text-ivory p-2 focus:outline-none">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Mobile Menu Drawer -->
-        <div id="mobile-menu" class="hidden md:hidden bg-[#F9F8F6]/95 border-b border-black/10 px-6 py-6 space-y-4 font-mono text-sm tracking-wider">
+        <div id="mobile-menu" class="hidden md:hidden border-b border-[var(--border-color)] px-6 py-6 space-y-4 font-mono text-sm tracking-wider" style="background-color: var(--header-bg);">
             <a href="#about" class="block text-ivory-muted hover:text-ivory py-2">/ABOUT</a>
             <a href="#videos" class="block text-ivory-muted hover:text-ivory py-2">/VIDEOS</a>
             <a href="#gallery" class="block text-ivory-muted hover:text-ivory py-2">/GALLERY</a>
             <a href="#booking" class="block text-ivory-muted hover:text-ivory py-2">/QUOTATION</a>
             <a href="#contact" class="block text-ivory-muted hover:text-ivory py-2">/CONTACT</a>
-            <a href="#booking" class="block text-center w-full mt-4 px-5 py-3 rounded-full text-xs uppercase font-bold bg-neutral-900 text-[#F9F8F6]">Book Event Now</a>
+            <a href="#booking" class="block text-center w-full mt-4 px-5 py-3 rounded-full text-xs uppercase font-bold" style="background-color: var(--btn-bg); color: var(--btn-text);">Book Event Now</a>
         </div>
     </header>
 
     <!-- HERO SECTION -->
     <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-grid">
-        <!-- Ambient Glow Background Canvas -->
         <canvas id="hero-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-30"></canvas>
 
         <div class="relative z-10 max-w-5xl mx-auto px-4 text-center flex flex-col items-center">
             
-            <!-- Custom High-Tech HF Geometric Monogram Emblem -->
             <div class="relative w-48 h-48 md:w-64 md:h-64 mb-8 flex items-center justify-center animation-float">
-                <!-- Outer Radial Glow -->
-                <div class="absolute inset-0 rounded-full bg-black/5 filter blur-2xl"></div>
+                <div class="absolute inset-0 rounded-full bg-black/5 dark:bg-white/5 filter blur-2xl"></div>
                 
-                <!-- Main SVG Logo Display matching theme -->
-                <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.08)]">
+                <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-lg">
                     <defs>
                         <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#111111" stop-opacity="0.9"/>
-                            <stop offset="100%" stop-color="#888888" stop-opacity="0.5"/>
+                            <stop offset="0%" stop-color="var(--text-ivory)" stop-opacity="0.9"/>
+                            <stop offset="100%" stop-color="var(--text-ivory-muted)" stop-opacity="0.5"/>
                         </linearGradient>
                     </defs>
-                    <!-- Outer Hexagonal Geometric Frame -->
                     <polygon points="100,10 178,55 178,145 100,190 22,145 22,55" fill="none" stroke="url(#lineGrad)" stroke-width="1.5" stroke-dasharray="4 4" class="opacity-50"/>
-                    <circle cx="100" cy="100" r="82" fill="none" stroke="#111111" stroke-width="1" class="opacity-20"/>
+                    <circle cx="100" cy="100" r="82" fill="none" stroke="var(--text-ivory)" stroke-width="1" class="opacity-20"/>
 
-                    <!-- Letter H -->
-                    <path d="M 45 45 L 45 155 M 45 100 L 90 100 M 90 45 L 90 155" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
-                    
-                    <!-- Letter F -->
-                    <path d="M 110 45 L 155 45 M 110 45 L 110 155 M 110 95 L 145 95" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
-
-                    <!-- Wavy Sine Frequency Line Intersecting Monogram Center -->
-                    <path d="M 10 100 C 40 60, 60 140, 100 100 C 140 60, 160 140, 190 100" fill="none" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M 45 45 L 45 155 M 45 100 L 90 100 M 90 45 L 90 155" fill="none" stroke="var(--text-ivory)" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M 110 45 L 155 45 M 110 45 L 110 155 M 110 95 L 145 95" fill="none" stroke="var(--text-ivory)" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M 10 100 C 40 60, 60 140, 100 100 C 140 60, 160 140, 190 100" fill="none" stroke="var(--text-ivory)" stroke-width="3" stroke-linecap="round" class="opacity-80"/>
                 </svg>
             </div>
 
-            <!-- Title & Motto -->
-            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter uppercase text-ivory mb-4 glow-text">
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter uppercase text-ivory mb-4">
                 HARMONIC FREQUENCIES
             </h1>
-            <p class="text-xs sm:text-sm md:text-base font-mono tracking-[0.4em] text-ivory-muted uppercase mb-8 max-w-2xl border-y border-black/10 py-3">
+            <p class="text-xs sm:text-sm md:text-base font-mono tracking-[0.4em] text-ivory-muted uppercase mb-8 max-w-2xl border-y border-[var(--border-color)] py-3">
                 SOUNDS THAT INSPIRE
             </p>
 
@@ -193,18 +211,16 @@
                 A luxury sonic collective fusing high-energy live instrumentation, cinematic electronics, and soul-stirring vocal harmonies.
             </p>
 
-            <!-- CTA Buttons -->
             <div class="flex flex-col sm:flex-row items-center gap-4 w-full justify-center max-w-md">
-                <a href="#booking" class="w-full sm:w-auto px-8 py-4 rounded-full font-mono text-xs uppercase tracking-widest font-bold bg-neutral-900 text-[#F9F8F6] hover:bg-black transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg text-center">
+                <a href="#booking" class="w-full sm:w-auto px-8 py-4 rounded-full font-mono text-xs uppercase tracking-widest font-bold transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg text-center" style="background-color: var(--btn-bg); color: var(--btn-text);">
                     Reserve Date / Quote
                 </a>
-                <a href="#videos" class="w-full sm:w-auto px-8 py-4 rounded-full font-mono text-xs uppercase tracking-widest font-bold border border-black/20 text-ivory hover:bg-black/5 transition-all duration-300 backdrop-blur-sm text-center flex items-center justify-center gap-2">
+                <a href="#videos" class="w-full sm:w-auto px-8 py-4 rounded-full font-mono text-xs uppercase tracking-widest font-bold border border-[var(--border-color)] text-ivory hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-300 backdrop-blur-sm text-center flex items-center justify-center gap-2">
                     <i data-lucide="play" class="w-4 h-4 fill-ivory"></i> Watch Live Sessions
                 </a>
             </div>
 
-            <!-- Quick Metrics / Highlights -->
-            <div class="grid grid-cols-3 gap-6 md:gap-12 mt-16 pt-10 border-t border-black/10 w-full max-w-3xl font-mono text-center">
+            <div class="grid grid-cols-3 gap-6 md:gap-12 mt-16 pt-10 border-t border-[var(--border-color)] w-full max-w-3xl font-mono text-center">
                 <div>
                     <div class="text-2xl md:text-3xl font-bold text-ivory">500+</div>
                     <div class="text-[10px] sm:text-xs text-ivory-muted tracking-widest mt-1 uppercase">Shows Played</div>
@@ -222,7 +238,7 @@
     </section>
 
     <!-- ABOUT & BAND CATALOGUE SECTION -->
-    <section id="about" class="py-24 relative border-t border-black/10 bg-pitch">
+    <section id="about" class="py-24 relative border-t border-[var(--border-color)] bg-pitch">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -237,10 +253,9 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
-                <!-- Card 1 -->
-                <div class="p-8 rounded-2xl bg-black/[0.02] border border-black/10 glow-border-hover transition-all duration-300 flex flex-col justify-between shadow-sm">
+                <div class="p-8 rounded-2xl border border-[var(--border-color)] glow-border-hover transition-all duration-300 flex flex-col justify-between shadow-sm" style="background-color: var(--card-bg);">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center mb-6 text-ivory border border-black/10">
+                        <div class="w-12 h-12 rounded-xl border border-[var(--border-color)] flex items-center justify-center mb-6 text-ivory bg-black/5 dark:bg-white/5">
                             <i data-lucide="disc" class="w-6 h-6"></i>
                         </div>
                         <h3 class="text-xl font-bold text-ivory mb-3">Versatile Genres</h3>
@@ -248,17 +263,16 @@
                             From soulful Jazz lounge acoustics during cocktail hours to high-octane Pop, Funk, EDM, and Rock anthems that keep the dancefloor packed all night.
                         </p>
                     </div>
-                    <ul class="text-xs font-mono text-ivory-muted/80 space-y-2 border-t border-black/10 pt-4">
+                    <ul class="text-xs font-mono text-ivory-muted/80 space-y-2 border-t border-[var(--border-color)] pt-4">
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-ivory"></i> Neo-Soul & Jazz Fusion</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-ivory"></i> Top 40 & Funk Anthems</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-ivory"></i> Deep House & Live Sax Sets</li>
                     </ul>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="p-8 rounded-2xl bg-black/[0.02] border border-black/10 glow-border-hover transition-all duration-300 flex flex-col justify-between shadow-sm">
+                <div class="p-8 rounded-2xl border border-[var(--border-color)] glow-border-hover transition-all duration-300 flex flex-col justify-between shadow-sm" style="background-color: var(--card-bg);">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center mb-6 text-ivory border border-black/10">
+                        <div class="w-12 h-12 rounded-xl border border-[var(--border-color)] flex items-center justify-center mb-6 text-ivory bg-black/5 dark:bg-white/5">
                             <i data-lucide="sliders" class="w-6 h-6"></i>
                         </div>
                         <h3 class="text-xl font-bold text-ivory mb-3">Bespoke Band Configurations</h3>
@@ -266,17 +280,16 @@
                             Tailored lineups ranging from an intimate 3-piece acoustic trio up to an extravagant 10-piece showband featuring full brass section and multi-vocals.
                         </p>
                     </div>
-                    <ul class="text-xs font-mono text-ivory-muted/80 space-y-2 border-t border-black/10 pt-4">
+                    <ul class="text-xs font-mono text-ivory-muted/80 space-y-2 border-t border-[var(--border-color)] pt-4">
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-ivory"></i> Acoustic Trio / Quartet</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-ivory"></i> 6-Piece Party Band</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-ivory"></i> 10-Piece Grand Symphony Band</li>
                     </ul>
                 </div>
 
-                <!-- Card 3 -->
-                <div class="p-8 rounded-2xl bg-black/[0.02] border border-black/10 glow-border-hover transition-all duration-300 flex flex-col justify-between shadow-sm">
+                <div class="p-8 rounded-2xl border border-[var(--border-color)] glow-border-hover transition-all duration-300 flex flex-col justify-between shadow-sm" style="background-color: var(--card-bg);">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center mb-6 text-ivory border border-black/10">
+                        <div class="w-12 h-12 rounded-xl border border-[var(--border-color)] flex items-center justify-center mb-6 text-ivory bg-black/5 dark:bg-white/5">
                             <i data-lucide="zap" class="w-6 h-6"></i>
                         </div>
                         <h3 class="text-xl font-bold text-ivory mb-3">Tour-Grade Audio & Production</h3>
@@ -284,7 +297,7 @@
                             We provide full end-to-end sound engineering, wireless concert-grade mic systems, and intelligent atmospheric lighting design.
                         </p>
                     </div>
-                    <ul class="text-xs font-mono text-ivory-muted/80 space-y-2 border-t border-black/10 pt-4">
+                    <ul class="text-xs font-mono text-ivory-muted/80 space-y-2 border-t border-[var(--border-color)] pt-4">
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-ivory"></i> Line-Array PA Sound Systems</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-ivory"></i> Intelligent Moving Head Lighting</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-ivory"></i> Professional On-site Sound Engineer</li>
@@ -296,7 +309,7 @@
     </section>
 
     <!-- VIDEO SHOWCASE / PERFORMANCES -->
-    <section id="videos" class="py-24 border-t border-black/10 bg-grid relative">
+    <section id="videos" class="py-24 border-t border-[var(--border-color)] bg-grid relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
@@ -307,593 +320,17 @@
                 <div class="text-xs font-mono text-ivory-muted">Click any clip to play preview</div>
             </div>
 
-            <!-- Video Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <!-- Video Item 1 -->
-                <div onclick="openVideoModal('Elegance Live Gala 2026', 'High-energy headline set recorded live at the Horizon Grand Ballroom.', 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80')" class="group cursor-pointer rounded-2xl overflow-hidden bg-black/[0.02] border border-black/10 glow-border-hover relative shadow-sm">
+                <div onclick="openVideoModal('Elegance Live Gala 2026', 'High-energy headline set recorded live at the Horizon Grand Ballroom.', 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80')" class="group cursor-pointer rounded-2xl overflow-hidden border border-[var(--border-color)] glow-border-hover relative shadow-sm" style="background-color: var(--card-bg);">
                     <div class="aspect-video w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80');">
-                        <div class="absolute inset-0 bg-white/70 group-hover:bg-white/40 transition-all duration-300 flex items-center justify-center">
-                            <div class="w-14 h-14 rounded-full bg-neutral-900 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
-                                <i data-lucide="play" class="w-6 h-6 fill-white ml-1"></i>
+                        <div class="absolute inset-0 bg-black/50 dark:bg-pitch/70 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                            <div class="w-14 h-14 rounded-full bg-ivory text-pitch flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform" style="background-color: var(--btn-bg); color: var(--btn-text);">
+                                <i data-lucide="play" class="w-6 h-6 fill-current ml-1"></i>
                             </div>
                         </div>
                     </div>
                     <div class="p-6">
-                        <span class="text-[10px] font-mono tracking-widest text-ivory-muted uppercase border border-black/20 px-2 py-0.5 rounded">CONCERT SET</span>
-                        <h3 class="text-lg font-bold text-ivory mt-3 group-hover:text-black transition-colors">Electric Symphony Reel</h3>
-                        <p class="text-xs text-ivory-muted mt-1">Full 10-piece showband live in action.</p>
-                    </div>
-                </div>
-
-                <!-- Video Item 2 -->
-                <div onclick="openVideoModal('Intimate Sunset Acoustic', 'Soulful covers and acoustic warmth recorded in studio atmosphere.', 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=1200&q=80')" class="group cursor-pointer rounded-2xl overflow-hidden bg-black/[0.02] border border-black/10 glow-border-hover relative shadow-sm">
-                    <div class="aspect-video w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=800&q=80');">
-                        <div class="absolute inset-0 bg-white/70 group-hover:bg-white/40 transition-all duration-300 flex items-center justify-center">
-                            <div class="w-14 h-14 rounded-full bg-neutral-900 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
-                                <i data-lucide="play" class="w-6 h-6 fill-white ml-1"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <span class="text-[10px] font-mono tracking-widest text-ivory-muted uppercase border border-black/20 px-2 py-0.5 rounded">ACOUSTIC SESSION</span>
-                        <h3 class="text-lg font-bold text-ivory mt-3 group-hover:text-black transition-colors">Sunset Soul Lounge</h3>
-                        <p class="text-xs text-ivory-muted mt-1">Perfect vibe for cocktail receptions & dinners.</p>
-                    </div>
-                </div>
-
-                <!-- Video Item 3 -->
-                <div onclick="openVideoModal('Corporate Pinnacle Night', 'Exclusive party mix powering an unforgettable corporate celebration.', 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80')" class="group cursor-pointer rounded-2xl overflow-hidden bg-black/[0.02] border border-black/10 glow-border-hover relative shadow-sm">
-                    <div class="aspect-video w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800&q=80');">
-                        <div class="absolute inset-0 bg-white/70 group-hover:bg-white/40 transition-all duration-300 flex items-center justify-center">
-                            <div class="w-14 h-14 rounded-full bg-neutral-900 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
-                                <i data-lucide="play" class="w-6 h-6 fill-white ml-1"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <span class="text-[10px] font-mono tracking-widest text-ivory-muted uppercase border border-black/20 px-2 py-0.5 rounded">DANCE FLOOR</span>
-                        <h3 class="text-lg font-bold text-ivory mt-3 group-hover:text-black transition-colors">Non-Stop Funk & Pop Medley</h3>
-                        <p class="text-xs text-ivory-muted mt-1">Peak energy performance to light up the crowd.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- PHOTO GALLERY SECTION -->
-    <section id="gallery" class="py-24 border-t border-black/10 bg-pitch">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-                <div>
-                    <div class="text-xs font-mono tracking-widest text-ivory-muted uppercase mb-2">// 03. VISUAL ARCHIVE</div>
-                    <h2 class="text-3xl sm:text-5xl font-black text-ivory uppercase">Gallery & Atmosphere</h2>
-                </div>
-
-                <!-- Filter Tabs -->
-                <div class="flex flex-wrap gap-2 font-mono text-xs">
-                    <button onclick="filterGallery('all')" class="gallery-filter-btn active-filter px-4 py-2 rounded-full border border-black/20 bg-neutral-900 text-[#F9F8F6] font-bold transition-all shadow-sm" data-filter="all">ALL</button>
-                    <button onclick="filterGallery('live')" class="gallery-filter-btn px-4 py-2 rounded-full border border-black/10 text-ivory-muted hover:text-ivory hover:border-black/30 transition-all" data-filter="live">LIVE SHOWS</button>
-                    <button onclick="filterGallery('studio')" class="gallery-filter-btn px-4 py-2 rounded-full border border-black/10 text-ivory-muted hover:text-ivory hover:border-black/30 transition-all" data-filter="studio">STUDIO</button>
-                    <button onclick="filterGallery('bts')" class="gallery-filter-btn px-4 py-2 rounded-full border border-black/10 text-ivory-muted hover:text-ivory hover:border-black/30 transition-all" data-filter="bts">BEHIND THE SCENES</button>
-                </div>
-            </div>
-
-            <!-- Gallery Grid -->
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <div class="gallery-item live group relative rounded-xl overflow-hidden cursor-pointer border border-black/10 aspect-square shadow-sm" onclick="openLightbox('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80', 'Stage Spotlights & Brass Section')">
-                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80" alt="Gallery" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#F9F8F6] via-transparent to-transparent opacity-0 group-hover:opacity-95 transition-opacity p-6 flex flex-col justify-end">
-                        <span class="text-xs font-mono text-ivory-muted">LIVE SHOWS</span>
-                        <p class="text-sm font-bold text-ivory">Stage Spotlights & Brass Section</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item studio group relative rounded-xl overflow-hidden cursor-pointer border border-black/10 aspect-square shadow-sm" onclick="openLightbox('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=80', 'Analog Synthesizers & Sound Design')">
-                    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80" alt="Gallery" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#F9F8F6] via-transparent to-transparent opacity-0 group-hover:opacity-95 transition-opacity p-6 flex flex-col justify-end">
-                        <span class="text-xs font-mono text-ivory-muted">STUDIO</span>
-                        <p class="text-sm font-bold text-ivory">Analog Synthesizers & Sound Design</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item bts group relative rounded-xl overflow-hidden cursor-pointer border border-black/10 aspect-square shadow-sm" onclick="openLightbox('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80', 'Pre-Show Soundcheck Precision')">
-                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80" alt="Gallery" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#F9F8F6] via-transparent to-transparent opacity-0 group-hover:opacity-95 transition-opacity p-6 flex flex-col justify-end">
-                        <span class="text-xs font-mono text-ivory-muted">BEHIND THE SCENES</span>
-                        <p class="text-sm font-bold text-ivory">Pre-Show Soundcheck Precision</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item live group relative rounded-xl overflow-hidden cursor-pointer border border-black/10 aspect-square shadow-sm" onclick="openLightbox('https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=1200&q=80', 'Mainstage Energy')">
-                    <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=800&q=80" alt="Gallery" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#F9F8F6] via-transparent to-transparent opacity-0 group-hover:opacity-95 transition-opacity p-6 flex flex-col justify-end">
-                        <span class="text-xs font-mono text-ivory-muted">LIVE SHOWS</span>
-                        <p class="text-sm font-bold text-ivory">Mainstage Crowd Energy</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item studio group relative rounded-xl overflow-hidden cursor-pointer border border-black/10 aspect-square shadow-sm" onclick="openLightbox('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80', 'Vocal Tracking & Harmony Alignment')">
-                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80" alt="Gallery" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#F9F8F6] via-transparent to-transparent opacity-0 group-hover:opacity-95 transition-opacity p-6 flex flex-col justify-end">
-                        <span class="text-xs font-mono text-ivory-muted">STUDIO</span>
-                        <p class="text-sm font-bold text-ivory">Vocal Tracking & Harmony Alignment</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item bts group relative rounded-xl overflow-hidden cursor-pointer border border-black/10 aspect-square shadow-sm" onclick="openLightbox('https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=1200&q=80', 'Green Room Preparation')">
-                    <img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=800&q=80" alt="Gallery" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#F9F8F6] via-transparent to-transparent opacity-0 group-hover:opacity-95 transition-opacity p-6 flex flex-col justify-end">
-                        <span class="text-xs font-mono text-ivory-muted">BEHIND THE SCENES</span>
-                        <p class="text-sm font-bold text-ivory">Green Room Preparation</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- INTERACTIVE BOOKING & QUOTATION GENERATOR -->
-    <section id="booking" class="py-24 border-t border-black/10 bg-grid relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <div class="text-xs font-mono tracking-widest text-ivory-muted uppercase mb-2">// 04. INSTANT ESTIMATOR</div>
-                <h2 class="text-3xl sm:text-5xl font-black text-ivory uppercase mb-4">Book Your Frequency</h2>
-                <p class="text-sm text-ivory-muted font-mono">Customize your event parameters to receive an instant performance estimate and submit your booking enquiry.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                
-                <!-- Interactive Controls Form -->
-                <div class="lg:col-span-7 bg-white border border-black/10 p-6 sm:p-8 rounded-2xl glow-border shadow-sm">
-                    <form id="quote-form" class="space-y-6" onsubmit="handleQuoteSubmit(event)">
-                        
-                        <!-- Event Type Selection -->
-                        <div>
-                            <label class="block text-xs font-mono uppercase text-ivory-muted mb-2">1. Event Category</label>
-                            <select id="event-type" onchange="calculateQuote()" class="w-full bg-[#F9F8F6] border border-black/20 rounded-xl px-4 py-3 text-ivory text-sm focus:outline-none focus:border-black">
-                                <option value="wedding">Luxury Wedding Reception ($2,500 base)</option>
-                                <option value="corporate">Corporate Gala / Product Launch ($3,000 base)</option>
-                                <option value="festival">Festival Mainstage ($4,000 base)</option>
-                                <option value="private">Private VIP Party ($2,000 base)</option>
-                                <option value="club">Club / Nightlife Showcase ($1,500 base)</option>
-                            </select>
-                        </div>
-
-                        <!-- Band Size / Lineup -->
-                        <div>
-                            <label class="block text-xs font-mono uppercase text-ivory-muted mb-2">2. Band Lineup Configuration</label>
-                            <select id="band-size" onchange="calculateQuote()" class="w-full bg-[#F9F8F6] border border-black/20 rounded-xl px-4 py-3 text-ivory text-sm focus:outline-none focus:border-black">
-                                <option value="trio">Intimate Trio (3 Musicians - Acoustic/Lounge)</option>
-                                <option value="standard" selected>Standard 6-Piece Party Band (Drums, Bass, Guitar, Keys, 2 Vocals)</option>
-                                <option value="grand">Grand 10-Piece Showband (+ Full Horn Section & Percussion)</option>
-                            </select>
-                        </div>
-
-                        <!-- Duration Slider -->
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <label class="text-xs font-mono uppercase text-ivory-muted">3. Performance Duration</label>
-                                <span id="duration-val" class="font-mono text-sm text-ivory font-bold">3 Hours</span>
-                            </div>
-                            <input type="range" id="duration" min="1" max="8" value="3" oninput="calculateQuote()" class="w-full accent-neutral-900 bg-black/10 h-2 rounded-lg cursor-pointer">
-                        </div>
-
-                        <!-- Audio & Lighting Production Addons -->
-                        <div>
-                            <label class="block text-xs font-mono uppercase text-ivory-muted mb-3">4. Production & AV Requirements</label>
-                            <div class="space-y-3">
-                                <label class="flex items-center gap-3 p-3 rounded-xl border border-black/10 bg-black/[0.02] cursor-pointer hover:border-black/30">
-                                    <input type="checkbox" id="addon-pa" checked onchange="calculateQuote()" class="accent-neutral-900 w-4 h-4">
-                                    <div class="text-xs">
-                                        <div class="font-bold text-ivory">Full Concert Line-Array PA Sound System (+$600)</div>
-                                        <div class="text-ivory-muted">Recommended for 150+ guests or large halls.</div>
-                                    </div>
-                                </label>
-
-                                <label class="flex items-center gap-3 p-3 rounded-xl border border-black/10 bg-black/[0.02] cursor-pointer hover:border-black/30">
-                                    <input type="checkbox" id="addon-lights" checked onchange="calculateQuote()" class="accent-neutral-900 w-4 h-4">
-                                    <div class="text-xs">
-                                        <div class="font-bold text-ivory">Intelligent Stage Lighting & FX Package (+$450)</div>
-                                        <div class="text-ivory-muted">Moving heads, haze, ambient uplighting design.</div>
-                                    </div>
-                                </label>
-
-                                <label class="flex items-center gap-3 p-3 rounded-xl border border-black/10 bg-black/[0.02] cursor-pointer hover:border-black/30">
-                                    <input type="checkbox" id="addon-dj" onchange="calculateQuote()" class="accent-neutral-900 w-4 h-4">
-                                    <div class="text-xs">
-                                        <div class="font-bold text-ivory">Continuous Live DJ Set During Intermissions (+$350)</div>
-                                        <div class="text-ivory-muted">Ensures uninterrupted music flow standard through the night.</div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Travel Distance -->
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <label class="text-xs font-mono uppercase text-ivory-muted">5. Travel Distance from Base (Miles)</label>
-                                <span id="distance-val" class="font-mono text-sm text-ivory font-bold">25 Miles</span>
-                            </div>
-                            <input type="range" id="distance" min="0" max="300" step="25" value="25" oninput="calculateQuote()" class="w-full accent-neutral-900 bg-black/10 h-2 rounded-lg cursor-pointer">
-                        </div>
-
-                        <!-- Contact Details for Enquiry -->
-                        <div class="pt-4 border-t border-black/10 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-mono uppercase text-ivory-muted mb-1">Your Name *</label>
-                                <input type="text" required placeholder="Alex Rivera" class="w-full bg-[#F9F8F6] border border-black/20 rounded-xl px-4 py-2.5 text-ivory text-sm focus:outline-none focus:border-black">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-mono uppercase text-ivory-muted mb-1">Email Address *</label>
-                                <input type="email" required placeholder="alex@domain.com" class="w-full bg-[#F9F8F6] border border-black/20 rounded-xl px-4 py-2.5 text-ivory text-sm focus:outline-none focus:border-black">
-                            </div>
-                        </div>
-
-                        <button type="submit" class="w-full py-4 rounded-xl font-mono text-xs uppercase font-bold bg-neutral-900 text-[#F9F8F6] hover:bg-black transition-all shadow-lg">
-                            Submit Booking Enquiry
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Real-time Quote Summary Breakdown Box -->
-                <div class="lg:col-span-5 bg-white border border-black/15 p-6 sm:p-8 rounded-2xl glow-border sticky top-28 shadow-sm">
-                    <div class="flex items-center justify-between pb-6 border-b border-black/10">
-                        <span class="text-xs font-mono uppercase text-ivory-muted tracking-widest">// ESTIMATE BREAKDOWN</span>
-                        <span class="text-xs font-mono text-emerald-600 flex items-center gap-1"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Live Calculation</span>
-                    </div>
-
-                    <div class="py-6 space-y-4 font-mono text-xs">
-                        <div class="flex justify-between text-ivory-muted">
-                            <span>Base Event Rate:</span>
-                            <span id="summary-base" class="text-ivory">$2,500</span>
-                        </div>
-                        <div class="flex justify-between text-ivory-muted">
-                            <span>Lineup Configuration:</span>
-                            <span id="summary-lineup" class="text-ivory">+$0</span>
-                        </div>
-                        <div class="flex justify-between text-ivory-muted">
-                            <span>Duration Coverage:</span>
-                            <span id="summary-duration" class="text-ivory">+$0</span>
-                        </div>
-                        <div class="flex justify-between text-ivory-muted">
-                            <span>AV & Production Addons:</span>
-                            <span id="summary-addons" class="text-ivory">+$1,050</span>
-                        </div>
-                        <div class="flex justify-between text-ivory-muted">
-                            <span>Travel / Logistics Fee:</span>
-                            <span id="summary-travel" class="text-ivory">+$25</span>
-                        </div>
-                    </div>
-
-                    <div class="pt-6 border-t border-black/10">
-                        <div class="text-xs font-mono text-ivory-muted uppercase mb-1">Estimated Investment</div>
-                        <div id="summary-total" class="text-4xl sm:text-5xl font-black text-ivory tracking-tight glow-text">
-                            $3,575
-                        </div>
-                        <p class="text-[11px] text-ivory-muted/70 mt-3 font-light leading-relaxed">
-                            *Final price guaranteed upon contract sign-off. Travel accommodations applied for distances exceeding 150 miles.
-                        </p>
-                    </div>
-
-                    <div class="mt-8 p-4 rounded-xl bg-black/[0.03] border border-black/10 text-xs text-ivory-muted space-y-2">
-                        <div class="flex items-center gap-2 text-ivory font-bold"><i data-lucide="check-circle-2" class="w-4 h-4"></i> What's Included?</div>
-                        <p class="text-[11px]">Dedicated stage manager, full insurance coverage, custom song requests, and flexible timeline coordination.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT INFORMATION -->
-    <section id="contact" class="py-24 border-t border-black/10 bg-pitch">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                
-                <div>
-                    <div class="text-xs font-mono tracking-widest text-ivory-muted uppercase mb-2">// 05. REACH OUT</div>
-                    <h2 class="text-3xl sm:text-5xl font-black text-ivory uppercase mb-6">Direct Management & Booking</h2>
-                    <p class="text-sm text-ivory-muted leading-relaxed mb-8">
-                        Have custom requirements or planning an international tour? Our management team is ready to discuss rider specifics and venue acoustics.
-                    </p>
-
-                    <div class="space-y-6 font-mono text-sm">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center text-ivory">
-                                <i data-lucide="mail" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <div class="text-[10px] text-ivory-muted uppercase">Management Email</div>
-                                <a href="mailto:booking@harmonicfrequencies.com" class="text-ivory hover:underline">booking@harmonicfrequencies.com</a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center text-ivory">
-                                <i data-lucide="phone" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <div class="text-[10px] text-ivory-muted uppercase">Phone / WhatsApp</div>
-                                <a href="tel:+18005557686" class="text-ivory hover:underline">+1 (800) 555-SOUND</a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center text-ivory">
-                                <i data-lucide="map-pin" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <div class="text-[10px] text-ivory-muted uppercase">Primary Studio Base</div>
-                                <div class="text-ivory">Los Angeles, CA / Available Worldwide</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Social & Press Card -->
-                <div class="p-8 rounded-2xl bg-white border border-black/10 glow-border shadow-sm">
-                    <h3 class="text-xl font-bold text-ivory mb-4">Follow The Frequency</h3>
-                    <p class="text-xs text-ivory-muted mb-8 leading-relaxed">
-                        Stay connected with our latest setlists, behind-the-scenes footage, and upcoming public concert dates.
-                    </p>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <a href="#" class="p-4 rounded-xl border border-black/10 hover:border-black/40 bg-black/[0.02] flex items-center gap-3 text-xs font-mono text-ivory transition-all">
-                            <i data-lucide="instagram" class="w-4 h-4"></i> Instagram
-                        </a>
-                        <a href="#" class="p-4 rounded-xl border border-black/10 hover:border-black/40 bg-black/[0.02] flex items-center gap-3 text-xs font-mono text-ivory transition-all">
-                            <i data-lucide="youtube" class="w-4 h-4"></i> YouTube
-                        </a>
-                        <a href="#" class="p-4 rounded-xl border border-black/10 hover:border-black/40 bg-black/[0.02] flex items-center gap-3 text-xs font-mono text-ivory transition-all">
-                            <i data-lucide="music" class="w-4 h-4"></i> Spotify
-                        </a>
-                        <a href="#" class="p-4 rounded-xl border border-black/10 hover:border-black/40 bg-black/[0.02] flex items-center gap-3 text-xs font-mono text-ivory transition-all">
-                            <i data-lucide="facebook" class="w-4 h-4"></i> Facebook
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER WITH HF WATERMARK -->
-    <footer class="py-12 border-t border-black/10 bg-pitch relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-            
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 border border-black/30 rounded flex items-center justify-center p-1">
-                    <svg viewBox="0 0 100 100" class="w-full h-full fill-none stroke-ivory stroke-[6]">
-                        <path d="M 20 20 L 20 80 M 20 50 L 45 50 M 45 20 L 45 80" />
-                        <path d="M 55 20 L 80 20 M 55 20 L 55 80 M 55 50 L 75 50" />
-                    </svg>
-                </div>
-                <span class="font-mono text-xs text-ivory-muted tracking-widest uppercase">HARMONIC FREQUENCIES © 2026</span>
-            </div>
-
-            <div class="text-xs font-mono text-ivory-muted">
-                SOUNDS THAT INSPIRE — ALL RIGHTS RESERVED
-            </div>
-
-        </div>
-
-        <!-- Giant Subtle Monogram Watermark -->
-        <div class="absolute -bottom-24 right-1/2 translate-x-1/2 pointer-events-none opacity-[0.02]">
-            <svg viewBox="0 0 200 200" class="w-[500px] h-[500px]">
-                <path d="M 45 45 L 45 155 M 45 100 L 90 100 M 90 45 L 90 155 M 110 45 L 155 45 M 110 45 L 110 155 M 110 95 L 145 95" fill="none" stroke="#111111" stroke-width="8"/>
-            </svg>
-        </div>
-    </footer>
-
-    <!-- LIGHTBOX / VIDEO MODAL CONTAINER -->
-    <div id="lightbox-modal" class="fixed inset-0 z-50 bg-[#F9F8F6]/95 backdrop-blur-xl hidden items-center justify-center p-4">
-        <button onclick="closeModal()" class="absolute top-6 right-6 text-ivory p-2 hover:text-black focus:outline-none">
-            <i data-lucide="x" class="w-8 h-8"></i>
-        </button>
-
-        <div class="max-w-4xl w-full flex flex-col items-center">
-            <div id="modal-content" class="w-full">
-                <!-- Content injected dynamically -->
-            </div>
-            <div id="modal-caption" class="mt-4 text-center font-mono text-sm text-ivory-muted"></div>
-        </div>
-    </div>
-
-    <!-- NOTIFICATION TOAST -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-neutral-900 text-[#F9F8F6] font-mono text-xs px-6 py-4 rounded-xl shadow-2xl transition-all duration-300 transform translate-y-20 opacity-0 flex items-center gap-3">
-        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
-        <span id="toast-msg">Enquiry Received! We will contact you shortly.</span>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
-
-        // Mobile Menu Toggle Logic
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Hero Audio Soundwave Canvas Animation
-        const canvas = document.getElementById('hero-canvas');
-        const ctx = canvas.getContext('2d');
-        let animationFrameId;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        let step = 0;
-        function animateSoundwave() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const lines = 3;
-            for (let j = 0; j < lines; j++) {
-                ctx.beginPath();
-                ctx.lineWidth = 1 + j * 0.5;
-                ctx.strokeStyle = `rgba(0, 0, 0, ${0.12 - j * 0.03})`;
-                
-                const height = canvas.height / 2;
-                const width = canvas.width;
-                
-                ctx.moveTo(0, height);
-                for (let i = 0; i < width; i += 10) {
-                    const wave1 = Math.sin((i * 0.005) + (step * 0.02) + j) * 40;
-                    const wave2 = Math.cos((i * 0.008) - (step * 0.015)) * 25;
-                    ctx.lineTo(i, height + wave1 + wave2);
-                }
-                ctx.stroke();
-            }
-
-            step++;
-            animationFrameId = requestAnimationFrame(animateSoundwave);
-        }
-
-        window.onload = function() {
-            animateSoundwave();
-            calculateQuote(); // Initial quote calculation
-        };
-
-        // Instant Interactive Quote Calculation Engine
-        function calculateQuote() {
-            const eventType = document.getElementById('event-type').value;
-            const bandSize = document.getElementById('band-size').value;
-            const duration = parseInt(document.getElementById('duration').value);
-            const distance = parseInt(document.getElementById('distance').value);
-
-            const addonPA = document.getElementById('addon-pa').checked;
-            const addonLights = document.getElementById('addon-lights').checked;
-            const addonDJ = document.getElementById('addon-dj').checked;
-
-            // Update range labels
-            document.getElementById('duration-val').innerText = duration + (duration === 1 ? ' Hour' : ' Hours');
-            document.getElementById('distance-val').innerText = distance + ' Miles';
-
-            // Base pricing rules
-            let baseRate = 2500;
-            if (eventType === 'corporate') baseRate = 3000;
-            if (eventType === 'festival') baseRate = 4000;
-            if (eventType === 'private') baseRate = 2000;
-            if (eventType === 'club') baseRate = 1500;
-
-            // Lineup calculation
-            let lineupFee = 0;
-            if (bandSize === 'trio') lineupFee = -600;
-            if (bandSize === 'grand') lineupFee = 1200;
-
-            // Duration multiplier (base includes 2 hours)
-            let durationFee = Math.max(0, duration - 2) * 300;
-
-            // Addons
-            let addonsFee = 0;
-            if (addonPA) addonsFee += 600;
-            if (addonLights) addonsFee += 450;
-            if (addonDJ) addonsFee += 350;
-
-            // Travel distance ($1 per mile past 20 miles)
-            let travelFee = Math.max(0, distance - 20) * 1.5;
-
-            const total = baseRate + lineupFee + durationFee + addonsFee + travelFee;
-
-            // Update Summary UI
-            document.getElementById('summary-base').innerText = '$' + baseRate.toLocaleString();
-            document.getElementById('summary-lineup').innerText = (lineupFee >= 0 ? '+$' : '-$') + Math.abs(lineupFee).toLocaleString();
-            document.getElementById('summary-duration').innerText = '+$' + durationFee.toLocaleString();
-            document.getElementById('summary-addons').innerText = '+$' + addonsFee.toLocaleString();
-            document.getElementById('summary-travel').innerText = '+$' + Math.round(travelFee).toLocaleString();
-            
-            document.getElementById('summary-total').innerText = '$' + Math.round(total).toLocaleString();
-        }
-
-        // Gallery Filter Logic
-        function filterGallery(category) {
-            const items = document.querySelectorAll('.gallery-item');
-            const filterBtns = document.querySelectorAll('.gallery-filter-btn');
-
-            filterBtns.forEach(btn => {
-                if (btn.getAttribute('data-filter') === category) {
-                    btn.classList.add('bg-neutral-900', 'text-[#F9F8F6]', 'font-bold');
-                    btn.classList.remove('text-ivory-muted');
-                } else {
-                    btn.classList.remove('bg-neutral-900', 'text-[#F9F8F6]', 'font-bold');
-                    btn.classList.add('text-ivory-muted');
-                }
-            });
-
-            items.forEach(item => {
-                if (category === 'all' || item.classList.contains(category)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-
-        // Modal Lightbox & Video Player Logic
-        const modal = document.getElementById('lightbox-modal');
-        const modalContent = document.getElementById('modal-content');
-        const modalCaption = document.getElementById('modal-caption');
-
-        function openLightbox(imgUrl, caption) {
-            modalContent.innerHTML = `<img src="${imgUrl}" class="w-full h-auto max-h-[80vh] object-contain rounded-xl border border-black/20 shadow-lg">`;
-            modalCaption.innerText = caption;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function openVideoModal(title, description, posterUrl) {
-            modalContent.innerHTML = `
-                <div class="aspect-video w-full rounded-2xl overflow-hidden bg-white border border-black/20 flex flex-col items-center justify-center relative bg-cover bg-center shadow-lg" style="background-image: url('${posterUrl}')">
-                    <div class="absolute inset-0 bg-white/80 flex flex-col items-center justify-center p-6 text-center">
-                        <div class="w-20 h-20 rounded-full bg-neutral-900 flex items-center justify-center mb-4 shadow-md">
-                            <i data-lucide="play" class="w-10 h-10 fill-white text-white"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold text-neutral-900 mb-2">${title}</h4>
-                        <p class="text-sm font-mono text-neutral-600 max-w-md">${description}</p>
-                    </div>
-                </div>
-            `;
-            modalCaption.innerText = "Simulated Live Performance Preview";
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            lucide.createIcons();
-        }
-
-        function closeModal() {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            modalContent.innerHTML = '';
-        }
-
-        // Close Modal on clicking background backdrop
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-
-        // Handle Booking Form Submit
-        function handleQuoteSubmit(e) {
-            e.preventDefault();
-            const toast = document.getElementById('toast');
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 4000);
-        }
-    </script>
-</body>
-</html>
+                        <span class="text-[10px] font-mono tracking-widest text-ivory-muted uppercase border border-[var(--border-color)] px-2 py-0.5 rounded">CONCERT SET</span>
+                        <h3 class="text-lg font-bold text-ivory mt-3 transition-colors">Electric Symphony Reel</h3>
+                        <p class="text-xs text-ivory-muted mt-1">Full 10-piece showband live in
